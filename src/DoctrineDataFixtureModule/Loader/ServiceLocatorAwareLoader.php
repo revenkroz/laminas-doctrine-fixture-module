@@ -19,8 +19,8 @@
 namespace DoctrineDataFixtureModule\Loader;
 
 use Doctrine\Common\DataFixtures\Loader as BaseLoader;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorAwareInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 
 /**

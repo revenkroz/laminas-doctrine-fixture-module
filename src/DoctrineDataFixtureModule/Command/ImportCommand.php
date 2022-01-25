@@ -29,7 +29,7 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use DoctrineDataFixtureModule\Loader\ServiceLocatorAwareLoader;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Command for generate migration classes by comparing your current database schema
@@ -48,7 +48,7 @@ class ImportCommand extends Command
     
     /**
      * Service Locator instance
-     * @var Zend\ServiceManager\ServiceLocatorInterface
+     * @var Laminas\ServiceManager\ServiceLocatorInterface
      */
     protected $serviceLocator;
 

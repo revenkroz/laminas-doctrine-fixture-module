@@ -19,9 +19,9 @@
 
 namespace DoctrineDataFixtureModule\Service;
 
-
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Factory for Fixtures
@@ -32,10 +32,15 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class FixtureFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $sl)
+    /**
+     * @param ContainerInterface $container
+     * @param string $requestedName
+     * @param array|null $options
+     * @return Fixture
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /** @var $options \DoctrineORMModule\Options\DBALConnection */
-        $options = $this->getOptions($sl, 'fixtures');
+        $options = $this->getOptions($container, 'fixtures');
         
         return $options;
     }
@@ -46,10 +51,10 @@ class FixtureFactory implements FactoryInterface
      * @param  ServiceLocatorInterface      $sl
      * @param  string                       $key
      * @param  null|string                  $name
-     * @return \Zend\Stdlib\AbstractOptions
+     * @return \Laminas\Stdlib\AbstractOptions
      * @throws \RuntimeException
      */
-    public function getOptions(ServiceLocatorInterface $sl, $key)
+    public function getOptions(ContainerInterface $sl, $key)
     {
         $options = $sl->get('config');
         if (!isset($options['doctrine']['fixture'])) {
