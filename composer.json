@@ -18,7 +18,7 @@
     "require": {
         "php": ">=7.4.27",
         "doctrine/data-fixtures": "^1.1.0",
-        "doctrine/doctrine-orm-module": "^4.0 || ^5.0",
+        "doctrine/doctrine-orm-module": "^4.0 || ^6.0",
         "laminas/laminas-modulemanager": "~2.0",
         "laminas/laminas-eventmanager": "~3.0",
         "laminas/laminas-servicemanager": "~3.0"
