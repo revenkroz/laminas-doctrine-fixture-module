@@ -1,6 +1,6 @@
 <?php
 
-namespace DoctrineDataFixtureModule;
+namespace DoctrineFixtureModule;
 
 use Interop\Container\ContainerInterface;
 

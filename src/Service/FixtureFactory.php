@@ -17,11 +17,10 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace DoctrineDataFixtureModule\Service;
+namespace DoctrineFixtureModule\Service;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Factory for Fixtures
@@ -32,35 +31,21 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
  */
 class FixtureFactory implements FactoryInterface
 {
-    /**
-     * @param ContainerInterface $container
-     * @param string $requestedName
-     * @param array|null $options
-     * @return Fixture
-     */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $options = $this->getOptions($container, 'fixtures');
-        
-        return $options;
+        return $this->getOptions($container);
     }
 
     /**
-     * Gets options from configuration based on name.
-     *
-     * @param  ServiceLocatorInterface      $sl
-     * @param  string                       $key
-     * @param  null|string                  $name
-     * @return \Laminas\Stdlib\AbstractOptions
-     * @throws \RuntimeException
+     * Gets options from configuration based on name
      */
-    public function getOptions(ContainerInterface $sl, $key)
+    public function getOptions(ContainerInterface $sl)
     {
         $options = $sl->get('config');
         if (!isset($options['doctrine']['fixture'])) {
-            return array();
+            return [];
         }
-        
+
         return $options['doctrine']['fixture'];
     }
 }

@@ -1,21 +1,17 @@
 <?php
 
-namespace DoctrineDataFixtureModule\Command;
+namespace DoctrineFixtureModule\Command;
 
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use DoctrineFixtureModule\Loader\DataFixturesLoader;
 use Interop\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use DoctrineDataFixtureModule\Loader\DataFixturesLoader;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-/**
- * Class FixturesLoadCommand
- * @package DoctrineDataFixtureModule\Command
- */
 class FixturesLoadCommand extends Command
 {
     /**
@@ -23,21 +19,14 @@ class FixturesLoadCommand extends Command
      */
     private $container;
 
-    /**
-     * FixturesLoadCommand constructor.
-     *
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         parent::__construct();
         $this->container = $container;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
-        parent::configure();
-
         $this->setName('orm:fixtures:load')
             ->setDescription('Load data fixtures to your database.')
             ->setHelp(
@@ -62,15 +51,11 @@ EOT
             ;
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->isInteractive() && !$input->getOption('append')) {
             if (!$this->askConfirmation($input, $output, '<question>Careful, database will be purged. Do you want to continue y/N ?</question>', false)) {
-                return;
+                return Command::SUCCESS;
             }
         }
 
@@ -89,13 +74,11 @@ EOT
             $output->writeln(sprintf('  <comment>></comment> <info>%s</info>', $message));
         });
         $executor->execute($loader->getFixtures(), $input->getOption('append'));
-        return 1;
+
+        return Command::SUCCESS;
     }
 
-    /**
-     * @return array
-     */
-    private function getPaths()
+    private function getPaths(): array
     {
         $paths = [];
         $options = $this->container->get('config');
@@ -106,19 +89,15 @@ EOT
         return $paths;
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $question
-     * @param bool            $default
-     *
-     * @return bool
-     */
-    private function askConfirmation(InputInterface $input, OutputInterface $output, $question, $default)
-    {
+    private function askConfirmation(
+        InputInterface $input,
+        OutputInterface $output,
+        string $question,
+        bool $default,
+    ): bool {
         $dialog = $this->getHelperSet()->get('dialog');
-        $question = new ConfirmationQuestion($question, $default);
+        $confirmationQuestion = new ConfirmationQuestion($question, $default);
 
-        return $dialog->ask($input, $output, $question);
+        return $dialog->ask($input, $output, $confirmationQuestion);
     }
 }

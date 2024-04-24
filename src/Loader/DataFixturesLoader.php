@@ -1,11 +1,11 @@
 <?php
 
-namespace DoctrineDataFixtureModule\Loader;
+namespace DoctrineFixtureModule\Loader;
 
-use Doctrine\Common\DataFixtures\Loader;
-use DoctrineDataFixtureModule\ContainerAwareInterface;
-use Interop\Container\ContainerInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\Loader;
+use DoctrineFixtureModule\ContainerAwareInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Class ServiceLocatorAwareLoader

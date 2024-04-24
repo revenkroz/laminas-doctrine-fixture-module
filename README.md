@@ -1,4 +1,4 @@
-# Yet another DoctrineDataFixture Module for Zend Framework 3
+# Laminas Doctrine Fixture module
 
 ## Introduction
 
