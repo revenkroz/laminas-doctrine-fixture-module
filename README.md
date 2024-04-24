@@ -4,34 +4,42 @@
 
 This is fork from [Houndog/DoctrineDataFixtureModule](https://github.com/Hounddog/DoctrineDataFixtureModule).
 
-
 The DoctrineDataFixtureModule module intends to integrate [Doctrine2 ORM Data Fixtures](https://github.com/doctrine/data-fixtures) with Zend Framework 3.
 
 ## Installation
 
-Installation of this module uses composer. For composer documentation, please refer to
-[getcomposer.org](http://getcomposer.org/).
+Add this project in your repositories in composer.json:
 
-```sh
-$ php composer.phar require dkorsak/doctrine-data-fixture-module
+```json
+"repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/revenkroz/laminas-doctrine-fixture-module"
+    }
+]
 ```
 
-Then open `config/application.config.php` and add `DoctrineModule`, `DoctrineORMModule` and 
-`DoctrineDataFixtureModule` to your `modules`
+Install package:
+```sh
+composer req revenkroz/laminas-doctrine-fixture-module:dev-main
+```
 
-#### Registering Fixtures
+Add `DoctrineFixtureModule` to your `modules`.
+
+#### Register Fixtures
 
 To register fixtures with Doctrine module add the fixtures in your configuration.
 
 ```php
 <?php
-return array(
-    'doctrine' => array(
-        'fixture' => array(
+
+return [
+    'doctrine' => [
+        'fixture' => [
             'ModuleName' => __DIR__ . '/../src/ModuleName/Fixture',
-        )
-    )
-);
+        ],
+    ],
+];
 ```
 
 ## Usage
