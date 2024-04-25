@@ -97,7 +97,7 @@ EOT
         string $question,
         bool $default,
     ): bool {
-        $dialog = $this->getHelperSet()->get('dialog');
+        $dialog = $this->getHelperSet()->get('question');
         $confirmationQuestion = new ConfirmationQuestion($question, $default);
 
         return $dialog->ask($input, $output, $confirmationQuestion);
