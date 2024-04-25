@@ -6,6 +6,7 @@ use DoctrineFixtureModule\Command\FixturesLoadCommand;
 use Laminas\EventManager\EventInterface;
 use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 use Laminas\ModuleManager\ModuleManager;
+use Psr\Container\ContainerInterface;
 
 class Module implements ConfigProviderInterface
 {
@@ -25,7 +26,7 @@ class Module implements ConfigProviderInterface
         /* @var \Symfony\Component\Console\Application $application */
         $application = $event->getTarget();
 
-        /* @var \Interop\Container\ContainerInterface $container */
+        /* @var ContainerInterface $container */
         $container = $event->getParam('ServiceManager');
         $fixturesLoadCommand = new FixturesLoadCommand($container);
         $application->add($fixturesLoadCommand);

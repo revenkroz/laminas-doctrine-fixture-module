@@ -20,7 +20,7 @@ namespace DoctrineFixtureModule\Loader;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Loader as BaseLoader;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Doctrine fixture loader which is ZF2 Service Locator-aware
@@ -32,14 +32,9 @@ use Laminas\ServiceManager\ServiceLocatorInterface;
  */
 class ServiceLocatorAwareLoader extends BaseLoader
 {
-    /**
-     * @var ServiceLocatorInterface
-     */
-    protected $serviceLocator;
-
-    public function __construct(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
+    public function __construct(
+        protected ContainerInterface $container,
+    ) {
     }
 
     public function addFixture(FixtureInterface $fixture): void

@@ -2,17 +2,9 @@
 
 namespace DoctrineFixtureModule;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
-/**
- * Interface ContainerAwareInterface
- * @package DoctrineDataFixtureModule
- */
 interface ContainerAwareInterface
 {
-    /**
-     * @param ContainerInterface $container
-     * @return null
-     */
-    public function setContainer(ContainerInterface $container);
+    public function setContainer(ContainerInterface $container): void;
 }

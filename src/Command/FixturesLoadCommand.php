@@ -4,8 +4,9 @@ namespace DoctrineFixtureModule\Command;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\ORM\EntityManagerInterface;
 use DoctrineFixtureModule\Loader\DataFixturesLoader;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,15 +15,12 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class FixturesLoadCommand extends Command
 {
-    /**
-     * @var \Interop\Container\ContainerInterface
-     */
-    private $container;
-
-    public function __construct(ContainerInterface $container)
-    {
+    public function __construct(
+        private ContainerInterface $container,
+        private ?EntityManagerInterface $em = null,
+        private array $fixturesPaths = [],
+    ) {
         parent::__construct();
-        $this->container = $container;
     }
 
     protected function configure(): void
@@ -59,7 +57,7 @@ EOT
             }
         }
 
-        $em = $this->container->get('doctrine.entitymanager.orm_default');
+        $em = $this->em ?? $this->container->get('doctrine.entitymanager.orm_default');
         $purger = new ORMPurger($em);
         $purgeMethod = $input
             ->getOption('purge-with-truncate') ? ORMPurger::PURGE_MODE_TRUNCATE : ORMPurger::PURGE_MODE_DELETE;
@@ -80,6 +78,10 @@ EOT
 
     private function getPaths(): array
     {
+        if ($this->fixturesPaths) {
+            return $this->fixturesPaths;
+        }
+
         $paths = [];
         $options = $this->container->get('config');
         if (isset($options['doctrine']['fixture'])) {
